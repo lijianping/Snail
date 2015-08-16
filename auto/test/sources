@@ -1,0 +1,12 @@
+CRYPTO_INCS="src/os src/crypto src/include"
+
+CRYPTO_DEPS="src/os/snl_linux_config.h \
+             src/include/snl_config.h"
+
+MD5_TEST_DEPS="src/crypto/snl_md5.h"
+MD5_TEST_SRCS="src/crypto/snl_md5.c \
+               demo/crypto/md5test.c"
+
+SHA1_TEST_DEPS="src/crypto/snl_sha1.h"
+SHA1_TEST_SRCS="src/crypto/snl_sha1.c \
+                demo/crypto/sha1test.c"

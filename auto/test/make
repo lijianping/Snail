@@ -1,0 +1,82 @@
+mkdir -p $TEST/src/crypto $TEST/demo/crypto
+
+echo                                                        >  $TEST_MAKEFILE
+echo "CC = gcc"                                             >> $TEST_MAKEFILE
+echo "CFLAGS ="                                             >> $TEST_MAKEFILE
+echo "LINK = \$(CC)"                                        >> $TEST_MAKEFILE
+echo                                                        >> $TEST_MAKEFILE
+
+
+CRYPTO_INCS=`echo " $CRYPTO_INCS $TEST" | sed -e "s/ / -I /g"`
+echo "CRYPTO_INCS = $CRYPTO_INCS"                           >> $TEST_MAKEFILE
+echo                                                        >> $TEST_MAKEFILE
+
+
+echo ".PHONY: all"                                          >> $TEST_MAKEFILE
+echo "all: $TEST_DEMO_CRYPTO/md5test \\"                    >> $TEST_MAKEFILE
+echo "	$TEST_DEMO_CRYPTO/sha1test"                         >> $TEST_MAKEFILE
+echo                                                        >> $TEST_MAKEFILE
+
+
+# md5test dep
+echo "$TEST_DEMO_CRYPTO/md5test: \\"                        >> $TEST_MAKEFILE
+for src in $MD5_TEST_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/\.o/"`
+	obj=`echo $TEST/$obj`
+	echo "	$obj \\"                                        >> $TEST_MAKEFILE
+done
+echo                                                        >> $TEST_MAKEFILE
+
+# link md5test
+echo "	\$(LINK) -o $TEST_DEMO_CRYPTO/md5test \\"           >> $TEST_MAKEFILE
+for src in $MD5_TEST_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/\.o/"`
+	obj=`echo $TEST/$obj`
+	echo "		$obj \\"                                    >> $TEST_MAKEFILE
+done
+echo                                                        >> $TEST_MAKEFILE
+
+for src in $MD5_TEST_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/\.o/"`
+	obj=`echo $TEST/$obj`
+	echo "$obj: $src $MD5_TEST_DEPS"                        >> $TEST_MAKEFILE
+	echo "	\$(CC) -o $obj \$(CRYPTO_INCS) \\"              >> $TEST_MAKEFILE
+	echo "		-c $src"                                    >> $TEST_MAKEFILE
+	echo                                                    >> $TEST_MAKEFILE
+done
+echo                                                        >> $TEST_MAKEFILE
+
+
+# sha1test deps
+echo "$TEST_DEMO_CRYPTO/sha1test: \\"                       >> $TEST_MAKEFILE
+for src in $SHA1_TEST_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/\.o/"`
+	obj=`echo $TEST/$obj`
+	echo "	$obj \\"                                        >> $TEST_MAKEFILE
+done
+echo                                                        >> $TEST_MAKEFILE
+
+# link sha1test
+echo "	\$(LINK) -o $TEST_DEMO_CRYPTO/sha1test \\"          >> $TEST_MAKEFILE
+for src in $SHA1_TEST_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/\.o/"`
+	obj=`echo $TEST/$obj`
+	echo "		$obj \\"                                    >> $TEST_MAKEFILE
+done
+echo                                                        >> $TEST_MAKEFILE
+
+for src in $SHA1_TEST_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/\.o/"`
+	obj=`echo $TEST/$obj`
+	echo "$obj: $src $SHA1_TEST_DEPS"                       >> $TEST_MAKEFILE
+	echo "	\$(CC) -o $obj \$(CRYPTO_INCS) \\"              >> $TEST_MAKEFILE
+	echo "		-c $src"                                    >> $TEST_MAKEFILE
+	echo                                                    >> $TEST_MAKEFILE
+done
+echo                                                        >> $TEST_MAKEFILE

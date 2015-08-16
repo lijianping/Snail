@@ -1,0 +1,6 @@
+#!/bin/bash
+
+. auto/test/init
+. auto/test/sources
+. auto/test/make
+. auto/summary

@@ -1,0 +1,9 @@
+TEST=tests
+TEST_MAKEFILE=$TEST/Makefile
+TEST_DEMO_CRYPTO=$TEST/demo/crypto
+
+SNL_AUTO_CONFIG_H="snl_auto_config.h"
+TEST_AUTO_CONFIG=`echo $TEST/$SNL_AUTO_CONFIG_H`
+
+test -d tests || mkdir tests
+echo                                                       > $TEST_AUTO_CONFIG

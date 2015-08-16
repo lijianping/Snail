@@ -1,0 +1,10 @@
+cat << END > Makefile
+
+.PHONY: test
+test:
+	make -f tests/Makefile
+
+clean:
+	rm -rf Makefile tests
+
+END
