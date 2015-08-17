@@ -1,0 +1,5 @@
+TSA_SRCS="src/tsa/tsa.c"
+
+TSA_DEPS=
+
+TSA_INCS=src/tsa

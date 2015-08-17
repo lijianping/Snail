@@ -1,10 +1,10 @@
 cat << END > Makefile
 
-.PHONY: test
-test:
+build:
 	make -f tests/Makefile
+	make -f tsa/Makefile
 
 clean:
-	rm -rf Makefile tests
+	rm -rf Makefile tests tsa
 
 END

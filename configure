@@ -1,6 +1,18 @@
 #!/bin/bash
 
+. auto/init
+
+
 . auto/test/init
 . auto/test/sources
 . auto/test/make
+
+
+. auto/src/sources
+
+
+. auto/tsa/init
+. auto/tsa/sources
+. auto/tsa/make
+
 . auto/summary

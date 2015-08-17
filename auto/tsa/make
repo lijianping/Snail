@@ -1,0 +1,95 @@
+mkdir -p $TSA/src/utils $TSA/src/os $TSA/src/tsa
+
+echo                                                 >  $TSA_MAKEFILE
+echo "CC = $CC"                                      >> $TSA_MAKEFILE
+echo "CFLAGS ="                                      >> $TSA_MAKEFILE
+echo "LINK = \$(CC)"                                 >> $TSA_MAKEFILE
+echo                                                 >> $TSA_MAKEFILE
+
+TSA_INCS=`echo $TSA_INCS $UTILS_INCS $OS_INCS`
+TSA_INCS=`echo $TSA_INCS $INC_INCS $TSA`
+
+# snl_auto_config.h directory
+AUTO_INCS=$TSA
+AUTO_INCS=`echo " $TSA" | sed -e "s/ / -I /g"`
+echo "AUTO_INCS = $AUTO_INCS"                        >> $TSA_MAKEFILE
+
+# timestamp server include directories
+tsa_incs=`echo " $TSA_INCS" | sed -e "s/ / -I /g"`
+echo "TSA_INCS = $tsa_incs"                          >> $TSA_MAKEFILE
+echo                                                 >> $TSA_MAKEFILE
+
+
+echo "INC_DEPS = \\"                                 >> $TSA_MAKEFILE
+for dep in $INC_DEPS
+do
+	echo "	$dep \\"                                 >> $TSA_MAKEFILE
+done
+echo                                                 >> $TSA_MAKEFILE
+
+echo "UTILS_DEPS = \\"                               >> $TSA_MAKEFILE
+for dep in $UTILS_DEPS
+do
+	echo "	$dep \\"                                 >> $TSA_MAKEFILE
+done
+echo                                                 >> $TSA_MAKEFILE
+
+echo "OS_DEPS = \\"                                  >> $TSA_MAKEFILE
+for dep in $OS_DEPS
+do
+	echo "	$dep \\"                                 >> $TSA_MAKEFILE
+done
+echo                                                 >> $TSA_MAKEFILE
+
+TSA_DEPS=`echo $TSA_DEPS $UTILS_DEPS $OS_DEPS $INC_DEPS`
+echo "TSA_DEPS = \\"                                 >> $TSA_MAKEFILE
+for dep in $TSA_DEPS
+do
+	echo "	$dep \\"                                 >> $TSA_MAKEFILE
+done
+echo                                                 >> $TSA_MAKEFILE
+
+
+# timestamp server
+echo "$TSA/tsaserv: \\"                              >> $TSA_MAKEFILE
+
+for src in $TSA_SRCS $UTILS_SRCS $OS_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/.o/"`
+	echo "	$TSA/$obj \\"                            >> $TSA_MAKEFILE
+done
+echo                                                 >> $TSA_MAKEFILE
+
+echo "	\$(LINK) -o $TSA/tsaserv \\"                 >> $TSA_MAKEFILE
+for src in $TSA_SRCS $UTILS_SRCS $OS_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/.o/"`
+	echo "	 	$TSA/$obj \\"                        >> $TSA_MAKEFILE
+done
+echo                                                 >> $TSA_MAKEFILE
+
+
+# tsa directory source files
+for src in $TSA_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/.o/"`
+	obj=`echo $TSA/$obj`
+	echo "$obj: $src \$(TSA_DEPS)"                   >> $TSA_MAKEFILE
+	echo "	\$(CC) -o $obj \$(TSA_INCS) \\"          >> $TSA_MAKEFILE
+	echo "		-c $src"                             >> $TSA_MAKEFILE
+	echo                                             >> $TSA_MAKEFILE
+done
+echo                                                 >> $TSA_MAKEFILE
+
+# utils directory source files
+for src in $UTILS_SRCS $OS_SRCS
+do
+	obj=`echo $src | sed -e "s/\.c\$/.o/"`
+	obj=`echo $TSA/$obj`
+	echo "$obj: $src \$(INC_DEPS) " \\               >> $TSA_MAKEFILE
+	echo "	\$(OS_DEPS) \$(UTILS_DEPS)"              >> $TSA_MAKEFILE
+	echo "	\$(CC) -o $obj \$(TSA_INCS) \\"          >> $TSA_MAKEFILE
+	echo "		-c $src"                             >> $TSA_MAKEFILE
+	echo                                             >> $TSA_MAKEFILE
+done
+echo                                                 >> $TSA_MAKEFILE

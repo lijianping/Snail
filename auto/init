@@ -1,0 +1,5 @@
+SNL_AUTO_CONFIG_H="snl_auto_config.h"
+MAKEFILE="Makefile"
+
+CC=gcc
+LINK=$CC

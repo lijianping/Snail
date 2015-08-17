@@ -1,0 +1,8 @@
+TSA=tsa
+TSA_MAKEFILE=$TSA/$MAKEFILE
+TSA_AUTO_CONFIG=$TSA/$SNL_AUTO_CONFIG_H
+
+test -d tsa || mkdir tsa
+
+echo                                                   > $TSA_AUTO_CONFIG
+echo "#define SNL_ERROR_LOG_PATH \"/home/japin/Public/error.log\"" >> $TSA_AUTO_CONFIG

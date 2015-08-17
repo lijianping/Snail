@@ -34,3 +34,6 @@
 # Swap fils
 *.swp
 *~
+
+# tag files
+tags

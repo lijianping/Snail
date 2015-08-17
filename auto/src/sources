@@ -1,0 +1,26 @@
+UTILS_SRCS="src/utils/snl_file.c \
+            src/utils/snl_log.c \
+			src/utils/snl_string.c"
+
+UTILS_DEPS="src/utils/snl_file.h \
+            src/utils/snl_log.h \
+			src/utils/snl_string.h"
+
+UTILS_INCS=src/utils
+
+OS_SRCS="src/os/snl_alloc.c \
+         src/os/snl_errno.c \
+		 src/os/snl_files.c"
+
+OS_DEPS="src/os/snl_alloc.h \
+		 src/os/snl_errno.h \
+		 src/os/snl_files.h \
+		 src/os/snl_linux_config.h"
+
+OS_INCS=src/os
+
+INC_DEPS="src/include/snl_config.h \
+          src/include/snl_types.h \
+		  src/include/snl_utils.h"
+
+INC_INCS=src/include
